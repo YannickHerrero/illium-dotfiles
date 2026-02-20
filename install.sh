@@ -43,18 +43,35 @@ run() {
 # ─── Check architecture ────────────────────────────────────────────
 check_arch() {
     ARCH=$(uname -m)
+
     if [ "$ARCH" != "aarch64" ]; then
-        error "This script is designed for aarch64 (Arch Linux ARM)."
-        error "Detected architecture: $ARCH"
-        exit 1
+        if [ "$FORCE" -eq 1 ]; then
+            IS_NATIVE=0
+            warn "Non-aarch64 detected ($ARCH) — running with --force"
+            warn "Hardware-specific steps will be skipped (touchpad, TLP, brightnessctl)"
+        else
+            error "This script is designed for aarch64 (Arch Linux ARM)."
+            error "Detected architecture: $ARCH"
+            error "Use --force to run on non-ARM systems."
+            exit 1
+        fi
     fi
 
     if [ ! -f /etc/arch-release ]; then
-        error "This script is designed for Arch Linux."
-        exit 1
+        if [ "$FORCE" -eq 1 ]; then
+            warn "Not running Arch Linux — proceeding with --force"
+        else
+            error "This script is designed for Arch Linux."
+            error "Use --force to override."
+            exit 1
+        fi
     fi
 
-    info "Running on Arch Linux ARM (aarch64)"
+    if [ "$IS_NATIVE" -eq 1 ]; then
+        info "Running on Arch Linux ARM (aarch64)"
+    else
+        info "Running in non-native mode (--force)"
+    fi
 }
 
 # ─── Configure git ──────────────────────────────────────────────────

@@ -1,7 +1,9 @@
 #!/bin/sh
 # install.sh — illium-dotfiles installer
 # Idempotent setup script for Arch Linux ARM on Apple Silicon
-# Usage: ./install.sh [--dry-run]
+# Usage: ./install.sh [--dry-run] [--force]
+#   --dry-run   Preview changes without applying them
+#   --force     Run on non-aarch64 systems (skips hardware-specific steps)
 
 set -e
 
@@ -12,9 +14,16 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 DRY_RUN=0
-if [ "$1" = "--dry-run" ]; then
-    DRY_RUN=1
-fi
+FORCE=0
+IS_NATIVE=1
+
+for arg in "$@"; do
+    case "$arg" in
+        --dry-run) DRY_RUN=1 ;;
+        --force)   FORCE=1 ;;
+        *)         printf "Unknown option: %s\n" "$arg"; exit 1 ;;
+    esac
+done
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 

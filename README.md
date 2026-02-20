@@ -57,6 +57,7 @@ illium-dotfiles/
 - [Installation Guide](docs/installation-guide.md) — full setup from Asahi install to first boot
 - [Keybindings](docs/keybindings.md) — dwm, st, and dmenu keybinding reference
 - [Packages](docs/packages.md) — what each package does and why
+- [Daily Usage](docs/daily-usage.md) — day-to-day workflow and updating your config
 - [Troubleshooting](docs/troubleshooting.md) — common issues and fixes
 - [Post-Install](docs/post-install.md) — wallpapers, Firefox config, optional tools
 

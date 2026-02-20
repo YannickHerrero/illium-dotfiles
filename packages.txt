@@ -27,12 +27,14 @@ picom
 dunst
 slock
 feh
+libnotify
 
 # Audio
 pipewire
 wireplumber
 pipewire-pulse
 pulsemixer
+playerctl
 
 # Brightness
 brightnessctl
@@ -46,6 +48,8 @@ bluez-utils
 yazi
 btop
 unzip
+p7zip
+unrar
 wget
 curl
 man-db
@@ -63,10 +67,19 @@ python-pillow
 # CLI/TUI tools
 neovim
 ripgrep
+fd
 fzf
 bat
 eza
 zoxide
+mpv
+
+# Power management
+tlp
+
+# Session
+polkit-gnome
+xdg-user-dirs
 
 # Browser
 firefox

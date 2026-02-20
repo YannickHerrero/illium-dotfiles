@@ -40,6 +40,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
 #include <X11/Xft/Xft.h>
+#include <X11/Xresource.h>
 
 #include "drw.h"
 #include "util.h"
@@ -235,6 +236,8 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void loadxrdb(void);
+static void reloadcolors(int sig);
 
 /* variables */
 static const char broken[] = "broken";
@@ -1589,6 +1592,66 @@ setmfact(const Arg *arg)
 }
 
 void
+loadxrdb(void)
+{
+	char *resm;
+	XrmDatabase db;
+	XrmValue value;
+	char *type;
+
+	XrmInitialize();
+	resm = XResourceManagerString(dpy);
+	if (!resm)
+		return;
+	db = XrmGetStringDatabase(resm);
+	if (!db)
+		return;
+
+	if (XrmGetResource(db, "*.color0", "*", &type, &value))
+		strncpy(col_bg, value.addr, sizeof(col_bg) - 1);
+	if (XrmGetResource(db, "*.color8", "*", &type, &value))
+		strncpy(col_border, value.addr, sizeof(col_border) - 1);
+	if (XrmGetResource(db, "*.color7", "*", &type, &value)) {
+		strncpy(col_fg, value.addr, sizeof(col_fg) - 1);
+		strncpy(col_fg_bright, value.addr, sizeof(col_fg_bright) - 1);
+	}
+	if (XrmGetResource(db, "*.color15", "*", &type, &value))
+		strncpy(col_fg_bright, value.addr, sizeof(col_fg_bright) - 1);
+	if (XrmGetResource(db, "*.color4", "*", &type, &value))
+		strncpy(col_accent, value.addr, sizeof(col_accent) - 1);
+
+	XrmDestroyDatabase(db);
+}
+
+void
+reloadcolors(int sig)
+{
+	Monitor *m;
+	Client *c;
+	size_t i;
+
+	(void)sig;
+	loadxrdb();
+
+	/* free old schemes and recreate */
+	for (i = 0; i < LENGTH(colors); i++)
+		free(scheme[i]);
+	for (i = 0; i < LENGTH(colors); i++)
+		scheme[i] = drw_scm_create(drw, colors[i], 3);
+
+	/* update all window borders */
+	for (m = mons; m; m = m->next) {
+		for (c = m->clients; c; c = c->next) {
+			if (c == selmon->sel)
+				XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
+			else
+				XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColBorder].pixel);
+		}
+	}
+	drawbars();
+}
+
+void
 setup(void)
 {
 	int i;
@@ -1605,6 +1668,15 @@ setup(void)
 	/* clean up any zombies (inherited from .xinitrc etc) immediately */
 	while (waitpid(-1, NULL, WNOHANG) > 0);
 
+	/* handle SIGUSR1 for live color reload */
+	{
+		struct sigaction sa_usr;
+		sigemptyset(&sa_usr.sa_mask);
+		sa_usr.sa_flags = SA_RESTART;
+		sa_usr.sa_handler = reloadcolors;
+		sigaction(SIGUSR1, &sa_usr, NULL);
+	}
+
 	/* init screen */
 	screen = DefaultScreen(dpy);
 	sw = DisplayWidth(dpy, screen);
@@ -1616,6 +1688,8 @@ setup(void)
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
 	updategeom();
+	/* load colors from Xresources (overrides config.h defaults) */
+	loadxrdb();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
 	wmatom[WMProtocols] = XInternAtom(dpy, "WM_PROTOCOLS", False);

@@ -9,13 +9,13 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11" };
 static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
 
-/* Tokyo Night color scheme */
-static const char col_bg[]          = "#1a1b26";
-static const char col_border[]      = "#414868";
-static const char col_fg[]          = "#c0caf5";
-static const char col_fg_bright[]   = "#c0caf5";
-static const char col_accent[]      = "#7aa2f7";
-static const char *colors[][3]      = {
+/* Tokyo Night color scheme (defaults, overridden by Xresources at runtime) */
+static char col_bg[8]          = "#1a1b26";
+static char col_border[8]      = "#414868";
+static char col_fg[8]          = "#c0caf5";
+static char col_fg_bright[8]   = "#c0caf5";
+static char col_accent[8]      = "#7aa2f7";
+static const char *colors[][3] = {
 	/*               fg              bg        border   */
 	[SchemeNorm] = { col_fg,         col_bg,   col_border },
 	[SchemeSel]  = { col_fg_bright,  col_accent, col_accent },
@@ -57,7 +57,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_fg, "-sb", col_accent, "-sf", col_fg_bright, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 

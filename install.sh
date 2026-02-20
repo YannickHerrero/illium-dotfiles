@@ -135,6 +135,30 @@ install_aur_packages() {
     info "AUR packages installed"
 }
 
+# ─── Install mise (polyglot tool manager) ──────────────────────────
+install_mise() {
+    if command -v mise > /dev/null 2>&1; then
+        warn "mise is already installed"
+        return
+    fi
+
+    info "Installing mise..."
+    run curl https://mise.run | sh
+    info "mise installed"
+}
+
+# ─── Install opencode ──────────────────────────────────────────────
+install_opencode() {
+    if command -v opencode > /dev/null 2>&1; then
+        warn "opencode is already installed"
+        return
+    fi
+
+    info "Installing opencode..."
+    run curl -fsSL https://opencode.ai/install | sh
+    info "opencode installed"
+}
+
 # ─── Install pywal16 ───────────────────────────────────────────────
 install_pywal() {
     if command -v wal > /dev/null 2>&1; then
@@ -174,9 +198,17 @@ create_symlinks() {
     run ln -sf "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
     info "Linked .zshrc"
 
-    # ~/.config/oh-my-posh/
-    run mkdir -p "$HOME/.config/oh-my-posh"
-    run ln -sf "$DOTFILES_DIR/oh-my-posh/illium.omp.json" "$HOME/.config/oh-my-posh/illium.omp.json"
+    # ~/.zsh/ (modular config files)
+    run mkdir -p "$HOME/.zsh"
+    for zshconfig in "$DOTFILES_DIR/zsh/.zsh/"*.zsh; do
+        CONFIG_NAME=$(basename "$zshconfig")
+        run ln -sf "$zshconfig" "$HOME/.zsh/$CONFIG_NAME"
+    done
+    info "Linked modular zsh configs to ~/.zsh/"
+
+    # ~/.config/ohmyposh/
+    run mkdir -p "$HOME/.config/ohmyposh"
+    run ln -sf "$DOTFILES_DIR/oh-my-posh/illium.omp.toml" "$HOME/.config/ohmyposh/illium.omp.toml"
     info "Linked oh-my-posh theme"
 
     # ~/.config/dunst/
@@ -265,8 +297,10 @@ print_summary() {
     printf "    - AUR helper (yay) installed\n"
     printf "    - AUR packages installed (bluetuith, oh-my-posh)\n"
     printf "    - pywal16 installed\n"
+    printf "    - mise installed (polyglot tool manager)\n"
+    printf "    - opencode installed\n"
     printf "    - Suckless tools built (dwm, st, dmenu, slstatus)\n"
-    printf "    - Config files symlinked (including neovim)\n"
+    printf "    - Config files symlinked (zsh, oh-my-posh, neovim, etc.)\n"
     printf "    - zsh set as default shell\n"
     printf "    - systemd services enabled\n"
     printf "\n"
@@ -298,6 +332,8 @@ main() {
     install_aur_helper
     install_aur_packages
     install_pywal
+    install_mise
+    install_opencode
     build_suckless
     create_symlinks
     set_default_shell

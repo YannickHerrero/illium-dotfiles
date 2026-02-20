@@ -15,6 +15,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif
 #include <X11/Xft/Xft.h>
+#include <X11/Xresource.h>
 
 #include "drw.h"
 #include "util.h"
@@ -611,6 +612,40 @@ run(void)
 }
 
 static void
+loadxrdb(void)
+{
+	char *resm;
+	XrmDatabase db;
+	XrmValue value;
+	char *type;
+
+	XrmInitialize();
+	resm = XResourceManagerString(dpy);
+	if (!resm)
+		return;
+	db = XrmGetStringDatabase(resm);
+	if (!db)
+		return;
+
+	/* map pywal colors: norm fg/bg, sel fg/bg, out fg/bg */
+	if (XrmGetResource(db, "*.color7", "*", &type, &value))
+		colors[SchemeNorm][ColFg] = strdup(value.addr);
+	if (XrmGetResource(db, "*.color0", "*", &type, &value)) {
+		colors[SchemeNorm][ColBg] = strdup(value.addr);
+		colors[SchemeOut][ColFg] = strdup(value.addr);
+	}
+	if (XrmGetResource(db, "*.color15", "*", &type, &value)) {
+		colors[SchemeSel][ColFg] = strdup(value.addr);
+	}
+	if (XrmGetResource(db, "*.color4", "*", &type, &value))
+		colors[SchemeSel][ColBg] = strdup(value.addr);
+	if (XrmGetResource(db, "*.color2", "*", &type, &value))
+		colors[SchemeOut][ColBg] = strdup(value.addr);
+
+	XrmDestroyDatabase(db);
+}
+
+static void
 setup(void)
 {
 	int x, y, i, j;
@@ -725,6 +760,14 @@ main(int argc, char *argv[])
 	XWindowAttributes wa;
 	int i, fast = 0;
 
+	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
+		fputs("warning: no locale support\n", stderr);
+	if (!(dpy = XOpenDisplay(NULL)))
+		die("cannot open display");
+
+	/* load colors from Xresources before CLI parsing (CLI overrides) */
+	loadxrdb();
+
 	for (i = 1; i < argc; i++)
 		/* these options take no arguments */
 		if (!strcmp(argv[i], "-v")) {      /* prints version information */
@@ -760,11 +803,6 @@ main(int argc, char *argv[])
 			embed = argv[++i];
 		else
 			usage();
-
-	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
-		fputs("warning: no locale support\n", stderr);
-	if (!(dpy = XOpenDisplay(NULL)))
-		die("cannot open display");
 	screen = DefaultScreen(dpy);
 	root = RootWindow(dpy, screen);
 	if (!embed || !(parentwin = strtol(embed, NULL, 0)))

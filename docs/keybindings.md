@@ -13,7 +13,7 @@ Mod key: **Alt** (Mod1)
 | `Alt+Return` | Open terminal (st) |
 | `Alt+Space` | Open dmenu (application launcher) |
 | `Alt+B` | Open Firefox |
-| `Super+Alt+Space` | Quick actions menu (lock, hibernate, wallpaper, screenshot) |
+| `Super+Alt+Space` | Quick actions menu (lock, wallpaper, screenshot, clipboard) |
 
 ### Window Focus
 
@@ -48,6 +48,21 @@ Mod key: **Alt** (Mod1)
 |---|---|
 | `Alt+1..9` | Switch to workspace 1-9 |
 | `Alt+Shift+1..9` | Move window to workspace 1-9 and follow |
+
+### Media Keys
+
+| Keybinding | Action |
+|---|---|
+| `XF86AudioRaiseVolume` | Volume up 5% |
+| `XF86AudioLowerVolume` | Volume down 5% |
+| `XF86AudioMute` | Toggle mute |
+| `XF86AudioPlay` | Play/pause media |
+| `XF86AudioNext` | Next track |
+| `XF86AudioPrev` | Previous track |
+| `XF86MonBrightnessUp` | Brightness up 5% |
+| `XF86MonBrightnessDown` | Brightness down 5% |
+
+All media/brightness actions show an OSD notification via dunst.
 
 ### Other
 

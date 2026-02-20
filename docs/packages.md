@@ -46,6 +46,7 @@ Every package in `packages.txt` explained.
 | `dunst` | Lightweight notification daemon |
 | `slock` | Simple X screen locker from suckless |
 | `feh` | Lightweight image viewer. Used to set wallpapers |
+| `libnotify` | Provides `notify-send` for desktop notifications (volume/brightness OSD, screenshot confirmation) |
 
 ## Audio
 
@@ -55,6 +56,7 @@ Every package in `packages.txt` explained.
 | `wireplumber` | Session manager for PipeWire |
 | `pipewire-pulse` | PulseAudio compatibility layer for PipeWire |
 | `pulsemixer` | TUI mixer for PulseAudio/PipeWire |
+| `playerctl` | MPRIS media player controller. Used for play/pause/next/prev keybindings |
 
 ## Brightness
 
@@ -77,11 +79,14 @@ Every package in `packages.txt` explained.
 | `yazi` | TUI file manager (fast, Rust-based) |
 | `btop` | TUI system monitor (CPU, RAM, disk, network) |
 | `unzip` | Extract .zip archives |
+| `p7zip` | 7-Zip archive support (7z format) |
+| `unrar` | Extract .rar archives |
 | `wget` | Download files from the web |
 | `curl` | Transfer data with URLs (also used by many scripts) |
 | `man-db` | Manual page viewer |
 | `xclip` | Command-line clipboard interface for X11 |
 | `maim` | Screenshot utility for X11 |
+| `nsxiv` | Lightweight X image viewer. Used for wallpaper picker in quickmenu |
 
 ## Fonts
 
@@ -99,7 +104,22 @@ Every package in `packages.txt` explained.
 | `fzf` | Command-line fuzzy finder. Integrated into zsh with Ctrl+T and Ctrl+R bindings |
 | `bat` | Cat alternative with syntax highlighting and git integration. Aliased as `cat` in zshrc |
 | `eza` | Modern ls replacement with icons and git status. Aliased as `ls`/`ll`/`la`/`lt` in zshrc |
+| `fd` | Fast file finder. Used by telescope.nvim for file search |
 | `zoxide` | Smart cd replacement. Learns your most-used directories. Aliased as `z` in zshrc |
+| `mpv` | Lightweight media player. Aliased as `play` in zshrc |
+
+## Power Management
+
+| Package | Purpose |
+|---|---|
+| `tlp` | Advanced laptop power management. Auto-switches AC/battery profiles |
+
+## Session
+
+| Package | Purpose |
+|---|---|
+| `polkit-gnome` | Polkit authentication agent for GUI privilege escalation |
+| `xdg-user-dirs` | Creates standard user directories (Downloads, Documents, etc.) |
 
 ## Browser
 
@@ -113,6 +133,7 @@ Every package in `packages.txt` explained.
 |---|---|
 | `bluetuith` | TUI Bluetooth manager |
 | `oh-my-posh-bin` | Cross-shell prompt theme engine |
+| `clipmenu` | Clipboard history manager, integrates with dmenu |
 
 ## pip Packages (installed separately)
 

@@ -1,4 +1,4 @@
-# illium's .zshrc
+# illium's .zshrc — modular config with zinit
 
 # ─── Path ───────────────────────────────────────────────────────────
 export PATH="$HOME/.local/bin:$HOME/scripts:$PATH"
@@ -7,62 +7,24 @@ export PATH="$HOME/.local/bin:$HOME/scripts:$PATH"
 export EDITOR=nvim
 export VISUAL=nvim
 
-# ─── History ────────────────────────────────────────────────────────
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_REDUCE_BLANKS
-setopt HIST_IGNORE_SPACE
+# ─── Zinit ──────────────────────────────────────────────────────────
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d "$ZINIT_HOME" ] && mkdir -p "$(dirname $ZINIT_HOME)" && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-# ─── Options ────────────────────────────────────────────────────────
-setopt AUTO_CD
-setopt CORRECT
-setopt NO_BEEP
-setopt INTERACTIVE_COMMENTS
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
 
 # ─── Completion ─────────────────────────────────────────────────────
-autoload -Uz compinit
-compinit
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+autoload -Uz compinit && compinit
+zinit cdreplay -q
 
-# ─── Aliases ────────────────────────────────────────────────────────
-alias ls='eza --icons'
-alias ll='eza -la --icons --git'
-alias la='eza -a --icons'
-alias lt='eza --tree --icons --level=2'
-alias cat='bat --style=plain'
-alias ..='cd ..'
-alias ...='cd ../..'
-
-# Git
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gp='git push'
-alias gl='git log --oneline --graph'
-alias gd='git diff'
-
-# Tools
-alias yy='yazi'
-alias vim='nvim'
-alias v='nvim'
-
-# ─── Oh My Posh ────────────────────────────────────────────────────
-if command -v oh-my-posh &> /dev/null; then
-    eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/illium.omp.json)"
-fi
-
-# ─── fzf integration ───────────────────────────────────────────────
-if command -v fzf &> /dev/null; then
-    eval "$(fzf --zsh 2>/dev/null)" || source /usr/share/fzf/key-bindings.zsh 2>/dev/null
-    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-fi
+# ─── Source modular configs ─────────────────────────────────────────
+for config in ~/.zsh/*.zsh; do
+    source "$config"
+done
 
 # ─── Pywal colors ──────────────────────────────────────────────────
 (cat ~/.cache/wal/sequences &) 2>/dev/null

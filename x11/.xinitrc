@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# Source system xinitrc scripts (dbus session, systemd user env, etc.)
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+    for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
+fi
+
 # Merge base Xresources (Tokyo Night defaults)
 xrdb -merge ~/.Xresources
 
@@ -11,7 +19,7 @@ fi
 # Restore wallpaper from pywal cache, or fall back to default
 if [ -f ~/.cache/wal/wal ]; then
     feh --bg-fill "$(cat ~/.cache/wal/wal)" &
-else
+elif [ -f ~/wallpapers/default.jpg ]; then
     feh --bg-fill ~/wallpapers/default.jpg &
 fi
 

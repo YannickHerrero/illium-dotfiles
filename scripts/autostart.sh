@@ -1,8 +1,12 @@
 #!/bin/sh
 # autostart.sh — launched by dwm on startup via .xinitrc
 
-# Compositor
-picom --daemon &
+# Compositor (VirtualBox lacks proper GLX — fall back to xrender)
+if lspci | grep -qi virtualbox; then
+    picom --backend xrender --daemon &
+else
+    picom --daemon &
+fi
 
 # Notification daemon
 dunst &

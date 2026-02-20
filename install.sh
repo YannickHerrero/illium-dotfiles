@@ -206,6 +206,17 @@ create_symlinks() {
     run chmod +x "$HOME/.config/scripts/"*.sh 2>/dev/null || true
     info "Linked scripts to ~/.config/scripts/"
 
+    # ~/.config/nvim/
+    run mkdir -p "$HOME/.config/nvim"
+    # Symlink each file/dir individually so lazy.nvim can write lazy-lock.json
+    for item in "$DOTFILES_DIR/nvim/"*; do
+        ITEM_NAME=$(basename "$item")
+        run ln -sf "$item" "$HOME/.config/nvim/$ITEM_NAME"
+    done
+    # Also link the lua directory (nested)
+    run ln -sf "$DOTFILES_DIR/nvim/lua" "$HOME/.config/nvim/lua"
+    info "Linked neovim config"
+
     # ~/wallpapers/
     run mkdir -p "$HOME/wallpapers"
     info "Created ~/wallpapers/ directory"
@@ -255,7 +266,7 @@ print_summary() {
     printf "    - AUR packages installed (bluetuith, oh-my-posh)\n"
     printf "    - pywal16 installed\n"
     printf "    - Suckless tools built (dwm, st, dmenu, slstatus)\n"
-    printf "    - Config files symlinked\n"
+    printf "    - Config files symlinked (including neovim)\n"
     printf "    - zsh set as default shell\n"
     printf "    - systemd services enabled\n"
     printf "\n"

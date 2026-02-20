@@ -100,6 +100,12 @@ install_packages() {
     # Filter out comments and empty lines
     PACKAGES=$(sed 's/#.*//;/^$/d' "$DOTFILES_DIR/packages.txt" | tr '\n' ' ')
 
+    # Skip hardware-specific packages on non-native systems
+    if [ "$IS_NATIVE" -eq 0 ]; then
+        PACKAGES=$(printf '%s' "$PACKAGES" | sed 's/brightnessctl//g')
+        warn "Skipping brightnessctl (not needed on non-native hardware)"
+    fi
+
     info "Installing packages from packages.txt..."
     run sudo pacman -S --needed --noconfirm $PACKAGES
     info "Packages installed"
@@ -353,6 +359,11 @@ set_default_shell() {
 # ─── Install system configs ─────────────────────────────────────────
 install_system_configs() {
     # Touchpad configuration for Apple Silicon
+    if [ "$IS_NATIVE" -eq 0 ]; then
+        warn "Skipping Apple Silicon touchpad config (non-native system)"
+        return
+    fi
+
     TOUCHPAD_CONF="/etc/X11/xorg.conf.d/30-touchpad.conf"
     if [ -f "$TOUCHPAD_CONF" ]; then
         warn "Touchpad config already exists at $TOUCHPAD_CONF"
@@ -367,6 +378,12 @@ install_system_configs() {
 # ─── Enable services ───────────────────────────────────────────────
 enable_services() {
     for service in NetworkManager bluetooth tlp; do
+        # Skip TLP on non-native systems (laptop power management)
+        if [ "$service" = "tlp" ] && [ "$IS_NATIVE" -eq 0 ]; then
+            warn "Skipping $service (not needed on non-native hardware)"
+            continue
+        fi
+
         if systemctl is-enabled "$service" > /dev/null 2>&1; then
             warn "$service is already enabled"
         else

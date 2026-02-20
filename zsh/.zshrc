@@ -4,13 +4,8 @@
 export PATH="$HOME/.local/bin:$HOME/scripts:$PATH"
 
 # ─── Editor ─────────────────────────────────────────────────────────
-if command -v nvim &> /dev/null; then
-    export EDITOR=nvim
-    export VISUAL=nvim
-else
-    export EDITOR=vim
-    export VISUAL=vim
-fi
+export EDITOR=nvim
+export VISUAL=nvim
 
 # ─── History ────────────────────────────────────────────────────────
 HISTFILE=~/.zsh_history
@@ -36,9 +31,11 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # ─── Aliases ────────────────────────────────────────────────────────
-alias ll='ls -la --color=auto'
-alias la='ls -A --color=auto'
-alias ls='ls --color=auto'
+alias ls='eza --icons'
+alias ll='eza -la --icons --git'
+alias la='eza -a --icons'
+alias lt='eza --tree --icons --level=2'
+alias cat='bat --style=plain'
 alias ..='cd ..'
 alias ...='cd ../..'
 
@@ -52,10 +49,19 @@ alias gd='git diff'
 
 # Tools
 alias yy='yazi'
+alias vim='nvim'
+alias v='nvim'
 
 # ─── Oh My Posh ────────────────────────────────────────────────────
 if command -v oh-my-posh &> /dev/null; then
     eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/illium.omp.json)"
+fi
+
+# ─── fzf integration ───────────────────────────────────────────────
+if command -v fzf &> /dev/null; then
+    eval "$(fzf --zsh 2>/dev/null)" || source /usr/share/fzf/key-bindings.zsh 2>/dev/null
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
 # ─── Pywal colors ──────────────────────────────────────────────────

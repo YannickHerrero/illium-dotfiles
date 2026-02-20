@@ -25,3 +25,4 @@ alias gd='git diff'
 # ─── Tools ──────────────────────────────────────────────────────────
 alias yy='yazi'
 alias oc='opencode'
+alias play='mpv'

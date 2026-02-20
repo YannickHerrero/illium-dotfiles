@@ -90,6 +90,16 @@ Every package in `packages.txt` explained.
 | `ttf-jetbrains-mono-nerd` | JetBrains Mono with Nerd Font icons. Used by dwm, st, dmenu, dunst |
 | `ttf-font-awesome` | Icon font. Used in status bar and scripts |
 
+## CLI/TUI Tools
+
+| Package | Purpose |
+|---|---|
+| `neovim` | Modern text editor. Configured with LazyVim, LSP, treesitter, and pywal16-driven theming via nvim-base16 |
+| `ripgrep` | Fast recursive grep alternative. Used by fzf and telescope.nvim for searching |
+| `fzf` | Command-line fuzzy finder. Integrated into zsh with Ctrl+T and Ctrl+R bindings |
+| `bat` | Cat alternative with syntax highlighting and git integration. Aliased as `cat` in zshrc |
+| `eza` | Modern ls replacement with icons and git status. Aliased as `ls`/`ll`/`la`/`lt` in zshrc |
+
 ## Browser
 
 | Package | Purpose |

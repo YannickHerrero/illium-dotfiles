@@ -62,6 +62,7 @@ ttf-jetbrains-mono-nerd
 ttf-font-awesome
 
 # Python
+python-pip
 python-pillow
 
 # CLI/TUI tools

@@ -253,7 +253,7 @@ install_pywal() {
     fi
 
     info "Installing pywal16 via pip..."
-    run pip install pywal16 --break-system-packages
+    run python3 -m pip install pywal16 --break-system-packages
     info "pywal16 installed"
 }
 

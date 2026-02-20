@@ -1,0 +1,60 @@
+# Xorg
+xorg-server
+xorg-xinit
+xorg-xsetroot
+xorg-xrandr
+xorg-xset
+
+# Build tools
+base-devel
+git
+make
+pkg-config
+
+# Suckless dependencies
+libx11
+libxft
+libxinerama
+freetype2
+fontconfig
+
+# Terminal & shell
+zsh
+stow
+
+# Window management support
+picom
+dunst
+slock
+feh
+
+# Audio
+pipewire
+wireplumber
+pipewire-pulse
+pulsemixer
+
+# Brightness
+brightnessctl
+
+# Network & Bluetooth
+networkmanager
+bluez
+bluez-utils
+
+# File management & tools
+yazi
+btop
+unzip
+wget
+curl
+man-db
+xclip
+maim
+
+# Fonts
+ttf-jetbrains-mono-nerd
+ttf-font-awesome
+
+# Browser
+firefox

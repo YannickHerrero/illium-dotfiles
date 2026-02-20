@@ -132,6 +132,13 @@ install_aur_packages() {
         warn "oh-my-posh already installed"
     fi
 
+    # clipmenu — clipboard manager (dmenu-integrated)
+    if ! command -v clipmenud > /dev/null 2>&1; then
+        run $AUR_HELPER -S --needed --noconfirm clipmenu
+    else
+        warn "clipmenu already installed"
+    fi
+
     info "AUR packages installed"
 }
 
@@ -317,14 +324,41 @@ set_default_shell() {
     fi
 }
 
+# ─── Install system configs ─────────────────────────────────────────
+install_system_configs() {
+    # Touchpad configuration for Apple Silicon
+    TOUCHPAD_CONF="/etc/X11/xorg.conf.d/30-touchpad.conf"
+    if [ -f "$TOUCHPAD_CONF" ]; then
+        warn "Touchpad config already exists at $TOUCHPAD_CONF"
+    else
+        info "Installing touchpad config..."
+        run sudo mkdir -p /etc/X11/xorg.conf.d
+        run sudo cp "$DOTFILES_DIR/x11/30-touchpad.conf" "$TOUCHPAD_CONF"
+        info "Touchpad config installed"
+    fi
+}
+
 # ─── Enable services ───────────────────────────────────────────────
 enable_services() {
-    for service in NetworkManager bluetooth; do
+    for service in NetworkManager bluetooth tlp; do
         if systemctl is-enabled "$service" > /dev/null 2>&1; then
             warn "$service is already enabled"
         else
             info "Enabling $service..."
             run sudo systemctl enable "$service"
+            info "$service enabled"
+        fi
+    done
+}
+
+# ─── Enable PipeWire user services ─────────────────────────────────
+enable_user_services() {
+    for service in pipewire.socket wireplumber; do
+        if systemctl --user is-enabled "$service" > /dev/null 2>&1; then
+            warn "User service $service is already enabled"
+        else
+            info "Enabling user service $service..."
+            run systemctl --user enable "$service"
             info "$service enabled"
         fi
     done
@@ -340,7 +374,7 @@ print_summary() {
     printf "  What was done:\n"
     printf "    - Pacman packages installed\n"
     printf "    - AUR helper (yay) installed\n"
-    printf "    - AUR packages installed (bluetuith, oh-my-posh)\n"
+    printf "    - AUR packages installed (bluetuith, oh-my-posh, clipmenu)\n"
     printf "    - pywal16 installed\n"
     printf "    - mise installed (polyglot tool manager)\n"
     printf "    - Runtimes installed via mise (rust, node, bun)\n"
@@ -348,8 +382,10 @@ print_summary() {
     printf "    - opencode installed\n"
     printf "    - Suckless tools built (dwm, st, dmenu, slstatus)\n"
     printf "    - Config files symlinked (zsh, oh-my-posh, neovim, webapps, etc.)\n"
+    printf "    - Touchpad config installed\n"
     printf "    - zsh set as default shell\n"
-    printf "    - systemd services enabled\n"
+    printf "    - systemd services enabled (NetworkManager, bluetooth, tlp)\n"
+    printf "    - PipeWire user services enabled\n"
     printf "\n"
     printf "  Next steps:\n"
     printf "    1. Reboot the system\n"
@@ -385,8 +421,10 @@ main() {
     install_opencode
     build_suckless
     create_symlinks
+    install_system_configs
     set_default_shell
     enable_services
+    enable_user_services
     print_summary
 }
 

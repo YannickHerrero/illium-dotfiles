@@ -425,10 +425,23 @@ print_summary() {
     printf "    - opencode installed\n"
     printf "    - Suckless tools built (dwm, st, dmenu, slstatus)\n"
     printf "    - Config files symlinked (zsh, oh-my-posh, neovim, webapps, etc.)\n"
-    printf "    - Touchpad config installed\n"
+    if [ "$IS_NATIVE" -eq 1 ]; then
+        printf "    - Touchpad config installed\n"
+    fi
     printf "    - zsh set as default shell\n"
-    printf "    - systemd services enabled (NetworkManager, bluetooth, tlp)\n"
+    if [ "$IS_NATIVE" -eq 1 ]; then
+        printf "    - systemd services enabled (NetworkManager, bluetooth, tlp)\n"
+    else
+        printf "    - systemd services enabled (NetworkManager, bluetooth)\n"
+    fi
     printf "    - PipeWire user services enabled\n"
+    if [ "$IS_NATIVE" -eq 0 ]; then
+        printf "\n"
+        printf "  ${YELLOW}Skipped (non-native hardware):${NC}\n"
+        printf "    - Apple Silicon touchpad config\n"
+        printf "    - TLP power management service\n"
+        printf "    - brightnessctl package\n"
+    fi
     printf "\n"
     printf "  Next steps:\n"
     printf "    1. Reboot the system\n"
@@ -449,8 +462,12 @@ main() {
     printf "\n"
 
     if [ "$DRY_RUN" -eq 1 ]; then
-        printf "${YELLOW}  Running in dry-run mode — no changes will be made.${NC}\n\n"
+        printf "${YELLOW}  Running in dry-run mode — no changes will be made.${NC}\n"
     fi
+    if [ "$FORCE" -eq 1 ]; then
+        printf "${YELLOW}  Running with --force — hardware-specific steps may be skipped.${NC}\n"
+    fi
+    printf "\n"
 
     check_arch
     configure_git

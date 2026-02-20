@@ -51,6 +51,7 @@ curl
 man-db
 xclip
 maim
+nsxiv
 
 # Fonts
 ttf-jetbrains-mono-nerd

@@ -13,6 +13,7 @@ Mod key: **Alt** (Mod1)
 | `Alt+Return` | Open terminal (st) |
 | `Alt+Space` | Open dmenu (application launcher) |
 | `Alt+B` | Open Firefox |
+| `Super+Alt+Space` | Quick actions menu (lock, hibernate, wallpaper, screenshot) |
 
 ### Window Focus
 

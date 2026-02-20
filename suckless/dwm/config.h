@@ -66,6 +66,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = browsercmd } },
+	{ Mod4Mask|MODKEY,              XK_space,  spawn,          SHCMD("~/.config/scripts/quickmenu.sh") },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 
 	/* focus navigation */

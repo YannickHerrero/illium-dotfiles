@@ -147,6 +147,42 @@ install_mise() {
     info "mise installed"
 }
 
+# ─── Install runtimes via mise ─────────────────────────────────────
+install_runtimes() {
+    if ! command -v mise > /dev/null 2>&1; then
+        error "mise is not installed — cannot install runtimes"
+        return
+    fi
+
+    for runtime in rust node bun; do
+        if mise which "$runtime" > /dev/null 2>&1 || command -v "$runtime" > /dev/null 2>&1; then
+            warn "$runtime is already installed"
+        else
+            info "Installing $runtime via mise..."
+            run mise install "$runtime@latest"
+            run mise use -g "$runtime@latest"
+            info "$runtime installed"
+        fi
+    done
+}
+
+# ─── Install rstools ───────────────────────────────────────────────
+install_rstools() {
+    if command -v rstools > /dev/null 2>&1; then
+        warn "rstools is already installed"
+        return
+    fi
+
+    if ! command -v cargo > /dev/null 2>&1; then
+        error "cargo not found — install Rust first (run install_runtimes)"
+        return
+    fi
+
+    info "Installing rstools..."
+    run cargo install --git https://github.com/YannickHerrero/rstools.git rstools-hub --bin rstools
+    info "rstools installed"
+}
+
 # ─── Install opencode ──────────────────────────────────────────────
 install_opencode() {
     if command -v opencode > /dev/null 2>&1; then
@@ -306,6 +342,8 @@ print_summary() {
     printf "    - AUR packages installed (bluetuith, oh-my-posh)\n"
     printf "    - pywal16 installed\n"
     printf "    - mise installed (polyglot tool manager)\n"
+    printf "    - Runtimes installed via mise (rust, node, bun)\n"
+    printf "    - rstools installed (TUI toolkit)\n"
     printf "    - opencode installed\n"
     printf "    - Suckless tools built (dwm, st, dmenu, slstatus)\n"
     printf "    - Config files symlinked (zsh, oh-my-posh, neovim, webapps, etc.)\n"
@@ -341,6 +379,8 @@ main() {
     install_aur_packages
     install_pywal
     install_mise
+    install_runtimes
+    install_rstools
     install_opencode
     build_suckless
     create_symlinks

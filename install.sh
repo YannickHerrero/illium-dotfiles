@@ -250,6 +250,7 @@ create_symlinks() {
     # ~/.config/dunst/
     run mkdir -p "$HOME/.config/dunst"
     run ln -sf "$DOTFILES_DIR/dunst/dunstrc" "$HOME/.config/dunst/dunstrc"
+    run ln -sf "$DOTFILES_DIR/dunst/dunstrc.base" "$HOME/.config/dunst/dunstrc.base"
     info "Linked dunst config"
 
     # ~/.config/picom/

@@ -1,2 +1,29 @@
 #!/bin/sh
-dmenu_path | dmenu "$@" | ${SHELL:-"/bin/sh"} &
+# dmenu_run — launch executables or web apps via dmenu
+# Web apps are defined in ~/.config/webapps.conf (Name=URL format)
+
+WEBAPPS_CONF="${XDG_CONFIG_HOME:-"$HOME/.config"}/webapps.conf"
+SCRIPTS_DIR="$HOME/.config/scripts"
+
+# Combine PATH executables with web app names
+selection=$(
+	{
+		dmenu_path
+		if [ -f "$WEBAPPS_CONF" ]; then
+			sed -n 's/^\([^#][^=]*\)=.*/\1/p' "$WEBAPPS_CONF"
+		fi
+	} | sort -u | dmenu "$@"
+)
+
+[ -z "$selection" ] && exit
+
+# Check if selection matches a web app
+if [ -f "$WEBAPPS_CONF" ]; then
+	url=$(sed -n "s/^${selection}=//p" "$WEBAPPS_CONF" | head -1)
+	if [ -n "$url" ]; then
+		exec "$SCRIPTS_DIR/webapp-launch.sh" "$url"
+	fi
+fi
+
+# Otherwise execute as normal command
+echo "$selection" | ${SHELL:-"/bin/sh"} &

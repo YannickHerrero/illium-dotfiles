@@ -249,6 +249,10 @@ create_symlinks() {
     run ln -sf "$DOTFILES_DIR/nvim/lua" "$HOME/.config/nvim/lua"
     info "Linked neovim config"
 
+    # ~/.config/webapps.conf
+    run ln -sf "$DOTFILES_DIR/webapps.conf" "$HOME/.config/webapps.conf"
+    info "Linked webapps.conf"
+
     # ~/wallpapers/
     run mkdir -p "$HOME/wallpapers"
     info "Created ~/wallpapers/ directory"
@@ -300,7 +304,7 @@ print_summary() {
     printf "    - mise installed (polyglot tool manager)\n"
     printf "    - opencode installed\n"
     printf "    - Suckless tools built (dwm, st, dmenu, slstatus)\n"
-    printf "    - Config files symlinked (zsh, oh-my-posh, neovim, etc.)\n"
+    printf "    - Config files symlinked (zsh, oh-my-posh, neovim, webapps, etc.)\n"
     printf "    - zsh set as default shell\n"
     printf "    - systemd services enabled\n"
     printf "\n"

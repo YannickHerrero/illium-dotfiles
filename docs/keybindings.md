@@ -80,14 +80,14 @@ Mod key: **Alt** (Mod1)
 | `Ctrl+Shift+Home` | Reset zoom |
 | `Shift+Insert` | Paste from selection |
 
-## dmenu — Application & Web App Launcher
+## dmenu — Application, TUI & Web App Launcher
 
-dmenu lists both `$PATH` executables and web apps defined in `~/.config/webapps.conf`.
-Selecting a web app opens it in a dedicated Firefox window.
+dmenu lists `$PATH` executables, TUI apps from `~/.config/tuiapps.conf`, and web apps
+from `~/.config/webapps.conf`. TUI apps open in an st terminal; web apps open in Firefox.
 
 | Key | Action |
 |---|---|
-| Type text | Filter applications and web apps |
+| Type text | Filter applications, TUI apps, and web apps |
 | `Return` | Launch selected |
 | `Tab` | Complete selection |
 | `Escape` | Close dmenu |

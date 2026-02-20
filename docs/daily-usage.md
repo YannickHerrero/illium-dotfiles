@@ -24,6 +24,7 @@ if something goes wrong.
 |---|---|
 | Open a terminal | `Alt+Return` |
 | Launch an app | `Alt+Space`, type the name, hit Enter |
+| Launch a TUI app | `Alt+Space`, type the name (e.g. "Bluetooth"), hit Enter |
 | Launch a web app | `Alt+Space`, type the name (e.g. "YouTube"), hit Enter |
 | Switch workspaces | `Alt+1` through `Alt+9` |
 | Move a window to workspace 3 | `Alt+Shift+3` (follows you there) |
@@ -191,6 +192,7 @@ directory. Edit the file in the repo and the change takes effect immediately
 | xinitrc | `x11/.xinitrc` | `~/.xinitrc` | Next `startx` |
 | Scripts | `scripts/*.sh` | `~/.config/scripts/*.sh` | Immediate (they're executed on each run) |
 | Web apps | `webapps.conf` | `~/.config/webapps.conf` | Immediate (read on each dmenu launch) |
+| TUI apps | `tuiapps.conf` | `~/.config/tuiapps.conf` | Immediate (read on each dmenu launch) |
 
 ## Versioning Your Changes
 

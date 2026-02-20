@@ -25,7 +25,7 @@ Preview without making changes:
 |---|---|
 | **dwm 6.5** | Tiled window manager — movestack, useless gaps, tag-and-follow |
 | **st 0.9.2** | Terminal — alpha transparency, scrollback buffer (2048 lines) |
-| **dmenu 5.3** | Application launcher — also surfaces web apps from `webapps.conf` |
+| **dmenu 5.3** | Application launcher — also surfaces TUI apps and web apps from config files |
 | **slstatus 1.0** | Status bar — CPU, RAM, battery, volume, WiFi, date/time |
 | **picom** | Compositor — vsync, transparency, fading |
 | **dunst** | Notification daemon |
@@ -35,6 +35,7 @@ Preview without making changes:
 | **zoxide** | Smart cd replacement (learns your most-used directories) |
 | **pywal16** | Wallpaper-based color scheme generation |
 | **ripgrep, fzf, bat, eza** | Modern CLI replacements for grep, find, cat, ls |
+| **rstools** | Vim-centric TUI toolkit — todo, HTTP client, KeePass, notes |
 | **opencode** | AI-powered coding assistant |
 | **Scripts** | Autostart, screenshots, wallpaper setter, screen lock |
 
@@ -54,6 +55,7 @@ illium-dotfiles/
 ├── picom/              # Compositor config
 ├── x11/                # .xinitrc, .Xresources
 ├── webapps.conf        # Web app definitions (Name=URL, shown in dmenu)
+├── tuiapps.conf        # TUI app definitions (Name=command, shown in dmenu)
 ├── scripts/            # Utility scripts
 ├── wallpapers/         # Your wallpapers go here
 └── docs/               # Documentation

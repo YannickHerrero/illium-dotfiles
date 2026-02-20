@@ -120,6 +120,20 @@ Every package in `packages.txt` explained.
 |---|---|
 | `pywal16` | Generate color schemes from wallpapers. Fork of pywal with 16-color support |
 
+## Runtimes (installed via mise)
+
+| Runtime | Purpose |
+|---|---|
+| `rust` | Systems programming language. Required to build rstools |
+| `node` | JavaScript runtime |
+| `bun` | Fast JavaScript runtime, bundler, and package manager |
+
+## Cargo-installed tools (installed separately)
+
+| Package | Purpose |
+|---|---|
+| `rstools` | Vim-centric TUI toolkit — todo list, HTTP client, KeePass vault browser, notes. Built from [YannickHerrero/rstools](https://github.com/YannickHerrero/rstools) |
+
 ## Curl-installed tools (installed separately)
 
 | Package | Purpose |

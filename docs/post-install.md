@@ -37,34 +37,7 @@ Recommended extensions:
 - Dark Reader
 - Vimium (keyboard navigation)
 
-## 4. Optional Tools
-
-These are not included in the base install but are useful additions:
-
-```bash
-# Text editor
-sudo pacman -S neovim
-
-# Terminal multiplexer
-sudo pacman -S tmux
-
-# Fuzzy finder
-sudo pacman -S fzf
-
-# Better ls
-sudo pacman -S eza
-
-# Better cat
-sudo pacman -S bat
-
-# Ripgrep (fast search)
-sudo pacman -S ripgrep
-
-# Git TUI
-sudo pacman -S lazygit
-```
-
-## 5. Rebuild Suckless Tools After Config Changes
+## 4. Rebuild Suckless Tools After Config Changes
 
 If you edit any `config.h` in the `suckless/` directory:
 
@@ -75,7 +48,7 @@ sudo make clean install
 
 Then quit and restart dwm (`Alt+Shift+Q`, then `startx`).
 
-## 6. Battery-Specific Notes
+## 5. Battery-Specific Notes
 
 On Apple Silicon, the battery name for slstatus is `macsmc-battery`. If your battery shows "n/a", check:
 
@@ -85,7 +58,7 @@ ls /sys/class/power_supply/
 
 And update the battery name in `suckless/slstatus/config.h` accordingly.
 
-## 7. Display Scaling
+## 6. Display Scaling
 
 For the MacBook Air M2's Retina display, you may want to adjust DPI. Edit `~/.Xresources`:
 
@@ -101,7 +74,7 @@ xrdb -merge ~/.Xresources
 
 You'll also want to increase font sizes in your suckless configs.
 
-## 8. Power Management
+## 7. Power Management
 
 For better battery life:
 
@@ -111,7 +84,7 @@ sudo pacman -S tlp
 sudo systemctl enable --now tlp
 ```
 
-## 9. Keeping Up to Date
+## 8. Keeping Up to Date
 
 ```bash
 # Update system packages

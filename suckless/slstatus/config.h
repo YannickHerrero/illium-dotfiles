@@ -18,6 +18,7 @@ static const char unknown_str[] = "n/a";
  * datetime            date and time                   format string (%F %T)
  * ram_perc            memory usage in percent         NULL
  * vol_perc            OSS/ALSA volume in percent      mixer file (/dev/mixer)
+ * run_command         custom shell command            command (echo foo)
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  */
 static const struct arg args[] = {
@@ -26,7 +27,7 @@ static const struct arg args[] = {
 	{ ram_perc,        " | RAM %s%%",      NULL },
 	{ battery_perc,    " | BAT %s%%",      "macsmc-battery" },
 	{ battery_state,   " %s",              "macsmc-battery" },
-	{ vol_perc,        " | VOL %s%%",      "/dev/mixer" },
+	{ run_command,     " | VOL %s",         "~/.config/scripts/slstatus-vol.sh" },
 	{ wifi_essid,      " | %s",            "wlan0" },
 	{ datetime,        " | %s",            "%a %d %b %H:%M" },
 };

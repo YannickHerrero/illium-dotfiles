@@ -69,6 +69,18 @@ static const Key keys[] = {
 	{ Mod4Mask|MODKEY,              XK_space,  spawn,          SHCMD("~/.config/scripts/quickmenu.sh") },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 
+	/* media keys */
+	{ 0,                            XF86XK_AudioRaiseVolume,  spawn, SHCMD("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ && ~/.config/scripts/notify-vol.sh") },
+	{ 0,                            XF86XK_AudioLowerVolume,  spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && ~/.config/scripts/notify-vol.sh") },
+	{ 0,                            XF86XK_AudioMute,         spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && ~/.config/scripts/notify-vol.sh") },
+	{ 0,                            XF86XK_AudioPlay,         spawn, SHCMD("playerctl play-pause") },
+	{ 0,                            XF86XK_AudioNext,         spawn, SHCMD("playerctl next") },
+	{ 0,                            XF86XK_AudioPrev,         spawn, SHCMD("playerctl previous") },
+
+	/* brightness keys */
+	{ 0,                            XF86XK_MonBrightnessUp,   spawn, SHCMD("brightnessctl set +5% && ~/.config/scripts/notify-brightness.sh") },
+	{ 0,                            XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl set 5%- && ~/.config/scripts/notify-brightness.sh") },
+
 	/* focus navigation */
 	{ MODKEY,                       XK_h,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },

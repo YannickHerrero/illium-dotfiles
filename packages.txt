@@ -57,6 +57,9 @@ nsxiv
 ttf-jetbrains-mono-nerd
 ttf-font-awesome
 
+# Python
+python-pillow
+
 # CLI/TUI tools
 neovim
 ripgrep

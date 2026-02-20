@@ -27,6 +27,17 @@ done
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+# ─── Acquire sudo upfront ──────────────────────────────────────────
+# Prompt once and keep the credential cache alive for the entire run.
+if [ "$DRY_RUN" -eq 0 ]; then
+    printf "This script requires sudo privileges. You will be prompted once.\n"
+    sudo -v
+    # Keep-alive: refresh sudo timestamp in the background until this script exits
+    while true; do sudo -n true; sleep 50; done 2>/dev/null &
+    SUDO_KEEPALIVE_PID=$!
+    trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null' EXIT
+fi
+
 # ─── Helper functions ───────────────────────────────────────────────
 info()  { printf "${GREEN}[OK]${NC} %s\n" "$1"; }
 warn()  { printf "${YELLOW}[SKIP]${NC} %s\n" "$1"; }

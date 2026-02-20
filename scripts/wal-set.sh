@@ -1,9 +1,20 @@
 #!/bin/sh
 # wal-set.sh — set wallpaper and propagate pywal16 colors to all tools
-# Usage: wal-set.sh <path-to-wallpaper>
+# Usage: wal-set.sh [--light|--dark] <path-to-wallpaper>
+#
+# Without flags, auto-detects whether the image is light or dark using
+# average brightness (requires python-pillow). Falls back to dark mode
+# if detection fails.
+
+# ─── Parse optional --light / --dark override ─────────────────────
+FORCE_MODE=""
+case "$1" in
+    --light) FORCE_MODE="light"; shift ;;
+    --dark)  FORCE_MODE="dark";  shift ;;
+esac
 
 if [ -z "$1" ]; then
-    echo "Usage: wal-set.sh <path-to-wallpaper>"
+    echo "Usage: wal-set.sh [--light|--dark] <path-to-wallpaper>"
     exit 1
 fi
 
@@ -12,8 +23,29 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
+# ─── Detect image brightness ─────────────────────────────────────
+# Downsample to 50x50, convert to grayscale, compute mean pixel value.
+# Images above the threshold (140/255) are treated as light.
+if [ -n "$FORCE_MODE" ]; then
+    MODE="$FORCE_MODE"
+else
+    MODE=$(python3 -c "
+from PIL import Image
+im = Image.open('$1').convert('L')
+im.thumbnail((50, 50))
+px = list(im.getdata())
+print('light' if sum(px) / len(px) > 140 else 'dark')
+" 2>/dev/null) || MODE="dark"
+    [ -z "$MODE" ] && MODE="dark"
+fi
+
+LIGHT_FLAG=""
+[ "$MODE" = "light" ] && LIGHT_FLAG="-l"
+
+echo "Detected mode: $MODE"
+
 # ─── Generate color scheme (skip setting wallpaper, we use feh) ────
-wal -i "$1" -n
+wal -i "$1" -n $LIGHT_FLAG
 
 # ─── Set wallpaper ─────────────────────────────────────────────────
 feh --bg-fill "$1"

@@ -99,6 +99,7 @@ Every package in `packages.txt` explained.
 | `fzf` | Command-line fuzzy finder. Integrated into zsh with Ctrl+T and Ctrl+R bindings |
 | `bat` | Cat alternative with syntax highlighting and git integration. Aliased as `cat` in zshrc |
 | `eza` | Modern ls replacement with icons and git status. Aliased as `ls`/`ll`/`la`/`lt` in zshrc |
+| `zoxide` | Smart cd replacement. Learns your most-used directories. Aliased as `z` in zshrc |
 
 ## Browser
 
@@ -118,3 +119,10 @@ Every package in `packages.txt` explained.
 | Package | Purpose |
 |---|---|
 | `pywal16` | Generate color schemes from wallpapers. Fork of pywal with 16-color support |
+
+## Curl-installed tools (installed separately)
+
+| Package | Purpose |
+|---|---|
+| `mise` | Polyglot tool manager — handles node, rust, go, python, and CLI tools. Replaces nvm/asdf/volta |
+| `opencode` | AI-powered coding assistant for the terminal |

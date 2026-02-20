@@ -72,14 +72,16 @@ chmod +x install.sh
 The install script will:
 1. Check that you're on aarch64
 2. Ask for your git name and email
-3. Install all packages from `packages.txt`
+3. Install all packages from `packages.txt` (including zoxide)
 4. Install yay (AUR helper)
 5. Install AUR packages (bluetuith, oh-my-posh)
 6. Install pywal16 via pip
-7. Build and install suckless tools (dwm, st, dmenu, slstatus)
-8. Create all config symlinks
-9. Set zsh as your default shell
-10. Enable NetworkManager and bluetooth
+7. Install mise (polyglot tool manager)
+8. Install opencode
+9. Build and install suckless tools (dwm, st, dmenu, slstatus)
+10. Create all config symlinks (zsh modules, oh-my-posh, neovim, etc.)
+11. Set zsh as your default shell
+12. Enable NetworkManager and bluetooth
 
 ## 4. First Boot into dwm
 

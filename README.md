@@ -30,9 +30,12 @@ Preview without making changes:
 | **picom** | Compositor — vsync, transparency, fading |
 | **dunst** | Notification daemon |
 | **neovim** | Text editor — LazyVim, LSP, treesitter, pywal16-themed via nvim-base16 |
-| **zsh** + **oh-my-posh** | Shell with minimal prompt (path, git status, exec time) |
+| **zsh** + **zinit** + **oh-my-posh** | Modular shell config with plugin manager and minimal prompt |
+| **mise** | Polyglot tool manager (node, rust, go, CLI tools) |
+| **zoxide** | Smart cd replacement (learns your most-used directories) |
 | **pywal16** | Wallpaper-based color scheme generation |
 | **ripgrep, fzf, bat, eza** | Modern CLI replacements for grep, find, cat, ls |
+| **opencode** | AI-powered coding assistant |
 | **Scripts** | Autostart, screenshots, wallpaper setter, screen lock |
 
 Color scheme: **Tokyo Night** (overridden at runtime by pywal).
@@ -45,8 +48,8 @@ illium-dotfiles/
 ├── packages.txt        # Pacman package list
 ├── suckless/           # Full source trees (dwm, st, dmenu, slstatus)
 ├── nvim/               # Neovim config (LazyVim + pywal16 theming)
-├── zsh/                # .zshrc
-├── oh-my-posh/         # Prompt theme
+├── zsh/                # Modular zsh config (.zshrc + .zsh/*.zsh)
+├── oh-my-posh/         # Prompt theme (illium.omp.toml, pywal-aware)
 ├── dunst/              # Notification config
 ├── picom/              # Compositor config
 ├── x11/                # .xinitrc, .Xresources

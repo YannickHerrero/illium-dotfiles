@@ -71,12 +71,27 @@ bluetuith
 bluetoothctl
 ```
 
+## Navigation
+
+```bash
+# Smart cd — learns your most-used directories
+z docs          # cd to most frequent match for "docs"
+z dev proj      # partial matching: cd to ~/dev/project-name
+
+# Fuzzy finders (fzf-powered, defined in ~/.zsh/fuzzy-dir.zsh)
+f               # fuzzy cd into top-level ~/dev folders
+fd              # deep fuzzy cd into ~/dev subfolders
+ff              # fuzzy file finder — opens in nvim
+```
+
 ## File Management
 
 ```bash
 # TUI file manager
 yazi
 # (aliased to 'yy' in .zshrc)
+# 'y' function: yazi with cd-to-last-directory on exit
+y
 ```
 
 ## System Monitoring
@@ -164,15 +179,16 @@ These configs are plain text files symlinked from the repo into your home
 directory. Edit the file in the repo and the change takes effect immediately
 (or after restarting the relevant program).
 
-| Config | File in repo | Restart needed? |
-|---|---|---|
-| zsh | `zsh/.zshrc` | Open a new terminal |
-| oh-my-posh | `oh-my-posh/illium.omp.json` | Open a new terminal |
-| picom | `picom/picom.conf` | `pkill picom && picom --daemon &` |
-| dunst | `dunst/dunstrc` | `pkill dunst && dunst &` |
-| Xresources | `x11/.Xresources` | `xrdb -merge ~/.Xresources` |
-| xinitrc | `x11/.xinitrc` | Next `startx` |
-| Scripts | `scripts/*.sh` | Immediate (they're executed on each run) |
+| Config | File in repo | Symlinks to | Restart needed? |
+|---|---|---|---|
+| zsh (main) | `zsh/.zshrc` | `~/.zshrc` | Open a new terminal |
+| zsh (modules) | `zsh/.zsh/*.zsh` | `~/.zsh/*.zsh` | Open a new terminal |
+| oh-my-posh | `oh-my-posh/illium.omp.toml` | `~/.config/ohmyposh/illium.omp.toml` | Open a new terminal |
+| picom | `picom/picom.conf` | `~/.config/picom/picom.conf` | `pkill picom && picom --daemon &` |
+| dunst | `dunst/dunstrc` | `~/.config/dunst/dunstrc` | `pkill dunst && dunst &` |
+| Xresources | `x11/.Xresources` | `~/.Xresources` | `xrdb -merge ~/.Xresources` |
+| xinitrc | `x11/.xinitrc` | `~/.xinitrc` | Next `startx` |
+| Scripts | `scripts/*.sh` | `~/.config/scripts/*.sh` | Immediate (they're executed on each run) |
 
 ## Versioning Your Changes
 

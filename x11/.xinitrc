@@ -1,10 +1,19 @@
 #!/bin/sh
 
-# Merge Xresources
+# Merge base Xresources (Tokyo Night defaults)
 xrdb -merge ~/.Xresources
 
-# Set wallpaper (pywal also sets it, this is fallback)
-feh --bg-fill ~/wallpapers/default.jpg &
+# Restore pywal colors if cached (overrides base Xresources)
+if [ -f ~/.cache/wal/colors.Xresources ]; then
+    xrdb -merge ~/.cache/wal/colors.Xresources
+fi
+
+# Restore wallpaper from pywal cache, or fall back to default
+if [ -f ~/.cache/wal/wal ]; then
+    feh --bg-fill "$(cat ~/.cache/wal/wal)" &
+else
+    feh --bg-fill ~/wallpapers/default.jpg &
+fi
 
 # Autostart script
 ~/.config/scripts/autostart.sh &

@@ -97,8 +97,8 @@ unsigned int tabspaces = 8;
 float alpha = 0.95;
 
 /* Terminal colors (16 first used in escape sequence) */
-/* Tokyo Night color scheme */
-static const char *colorname[] = {
+/* Tokyo Night color scheme (defaults, overridden by Xresources at runtime) */
+static char *colorname[] = {
 	/* 8 normal colors */
 	"#15161e", /* black   */
 	"#f7768e", /* red     */

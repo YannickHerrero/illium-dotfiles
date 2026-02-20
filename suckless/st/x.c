@@ -14,6 +14,7 @@
 #include <X11/keysym.h>
 #include <X11/Xft/Xft.h>
 #include <X11/XKBlib.h>
+#include <X11/Xresource.h>
 
 char *argv0;
 #include "arg.h"
@@ -155,6 +156,7 @@ static void cresize(int, int);
 static void xresize(int, int);
 static void xhints(void);
 static int xloadcolor(int, const char *, Color *);
+static void loadxrdb(void);
 static int xloadfont(Font *, FcPattern *);
 static void xloadfonts(const char *, double);
 static void xunloadfont(Font *);
@@ -514,6 +516,14 @@ propnotify(XEvent *e)
 			(xpev->atom == XA_PRIMARY ||
 			 xpev->atom == clipboard)) {
 		selnotify(e);
+	}
+
+	/* live reload colors when Xresources change (e.g. pywal xrdb -merge) */
+	if (xpev->window == XRootWindow(xw.dpy, xw.scr)
+			&& xpev->atom == XA_RESOURCE_MANAGER) {
+		loadxrdb();
+		xloadcols();
+		cresize(0, 0);
 	}
 }
 
@@ -1132,6 +1142,44 @@ xicdestroy(XIC xim, XPointer client, XPointer call)
 }
 
 void
+loadxrdb(void)
+{
+	char *resm;
+	XrmDatabase db;
+	XrmValue value;
+	char *type;
+	int i;
+	char name[16];
+
+	XrmInitialize();
+	resm = XResourceManagerString(xw.dpy);
+	if (!resm)
+		return;
+	db = XrmGetStringDatabase(resm);
+	if (!db)
+		return;
+
+	/* load color0-color15 */
+	for (i = 0; i < 16; i++) {
+		snprintf(name, sizeof(name), "*.color%d", i);
+		if (XrmGetResource(db, name, "*", &type, &value))
+			colorname[i] = strdup(value.addr);
+	}
+
+	/* load special colors */
+	if (XrmGetResource(db, "*.foreground", "*", &type, &value)) {
+		colorname[defaultfg] = strdup(value.addr);
+		colorname[256] = strdup(value.addr);
+	}
+	if (XrmGetResource(db, "*.background", "*", &type, &value))
+		colorname[defaultbg] = strdup(value.addr);
+	if (XrmGetResource(db, "*.cursorColor", "*", &type, &value))
+		colorname[defaultcs] = strdup(value.addr);
+
+	XrmDestroyDatabase(db);
+}
+
+void
 xinit(int cols, int rows)
 {
 	XGCValues gcvalues;
@@ -1163,9 +1211,10 @@ xinit(int cols, int rows)
 	usedfont = (opt_font == NULL)? font : opt_font;
 	xloadfonts(usedfont, 0);
 
-	/* colors */
+	/* colors — load Xresources before initializing color table */
 	xw.cmap = XCreateColormap(xw.dpy, XRootWindow(xw.dpy, xw.scr),
 	                           xw.vis, None);
+	loadxrdb();
 	xloadcols();
 
 	/* adjust fixed window geometry */
@@ -1254,6 +1303,9 @@ xinit(int cols, int rows)
 	xsel.xtarget = XInternAtom(xw.dpy, "UTF8_STRING", 0);
 	if (xsel.xtarget == None)
 		xsel.xtarget = XA_STRING;
+
+	/* watch root window for Xresources changes (pywal live reload) */
+	XSelectInput(xw.dpy, XRootWindow(xw.dpy, xw.scr), PropertyChangeMask);
 }
 
 int

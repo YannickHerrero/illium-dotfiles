@@ -9,7 +9,7 @@ static const char *fonts[] = {
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
 
 /* Tokyo Night color scheme (defaults, overridden by Xresources at runtime) */
-static char *colors[SchemeLast][2] = {
+static const char *colors[SchemeLast][2] = {
 	/*     fg         bg       */
 	[SchemeNorm] = { "#c0caf5", "#1a1b26" },
 	[SchemeSel]  = { "#c0caf5", "#7aa2f7" },

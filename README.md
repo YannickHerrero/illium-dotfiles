@@ -29,8 +29,10 @@ Preview without making changes:
 | **slstatus 1.0** | Status bar — CPU, RAM, battery, volume, WiFi, date/time |
 | **picom** | Compositor — vsync, transparency, fading |
 | **dunst** | Notification daemon |
+| **neovim** | Text editor — LazyVim, LSP, treesitter, pywal16-themed via nvim-base16 |
 | **zsh** + **oh-my-posh** | Shell with minimal prompt (path, git status, exec time) |
 | **pywal16** | Wallpaper-based color scheme generation |
+| **ripgrep, fzf, bat, eza** | Modern CLI replacements for grep, find, cat, ls |
 | **Scripts** | Autostart, screenshots, wallpaper setter, screen lock |
 
 Color scheme: **Tokyo Night** (overridden at runtime by pywal).
@@ -42,6 +44,7 @@ illium-dotfiles/
 ├── install.sh          # Idempotent installer
 ├── packages.txt        # Pacman package list
 ├── suckless/           # Full source trees (dwm, st, dmenu, slstatus)
+├── nvim/               # Neovim config (LazyVim + pywal16 theming)
 ├── zsh/                # .zshrc
 ├── oh-my-posh/         # Prompt theme
 ├── dunst/              # Notification config
@@ -59,7 +62,7 @@ illium-dotfiles/
 - [Packages](docs/packages.md) — what each package does and why
 - [Daily Usage](docs/daily-usage.md) — day-to-day workflow and updating your config
 - [Troubleshooting](docs/troubleshooting.md) — common issues and fixes
-- [Post-Install](docs/post-install.md) — wallpapers, Firefox config, optional tools
+- [Post-Install](docs/post-install.md) — wallpapers, Firefox config, display scaling
 
 ## Key Bindings (Quick Reference)
 

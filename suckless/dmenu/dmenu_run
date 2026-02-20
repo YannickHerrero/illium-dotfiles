@@ -1,14 +1,20 @@
 #!/bin/sh
-# dmenu_run — launch executables or web apps via dmenu
-# Web apps are defined in ~/.config/webapps.conf (Name=URL format)
+# dmenu_run — launch executables, TUI apps, or web apps via dmenu
+# TUI apps: ~/.config/tuiapps.conf (Name=command, opened inside st)
+# Web apps: ~/.config/webapps.conf (Name=URL, opened in Firefox)
 
-WEBAPPS_CONF="${XDG_CONFIG_HOME:-"$HOME/.config"}/webapps.conf"
-SCRIPTS_DIR="$HOME/.config/scripts"
+CONFIG_DIR="${XDG_CONFIG_HOME:-"$HOME/.config"}"
+TUIAPPS_CONF="$CONFIG_DIR/tuiapps.conf"
+WEBAPPS_CONF="$CONFIG_DIR/webapps.conf"
+SCRIPTS_DIR="$CONFIG_DIR/scripts"
 
-# Combine PATH executables with web app names
+# Combine PATH executables with TUI and web app names
 selection=$(
 	{
 		dmenu_path
+		if [ -f "$TUIAPPS_CONF" ]; then
+			sed -n 's/^\([^#][^=]*\)=.*/\1/p' "$TUIAPPS_CONF"
+		fi
 		if [ -f "$WEBAPPS_CONF" ]; then
 			sed -n 's/^\([^#][^=]*\)=.*/\1/p' "$WEBAPPS_CONF"
 		fi
@@ -16,6 +22,14 @@ selection=$(
 )
 
 [ -z "$selection" ] && exit
+
+# Check if selection matches a TUI app
+if [ -f "$TUIAPPS_CONF" ]; then
+	cmd=$(sed -n "s/^${selection}=//p" "$TUIAPPS_CONF" | head -1)
+	if [ -n "$cmd" ]; then
+		exec "$SCRIPTS_DIR/tuiapp-launch.sh" $cmd
+	fi
+fi
 
 # Check if selection matches a web app
 if [ -f "$WEBAPPS_CONF" ]; then

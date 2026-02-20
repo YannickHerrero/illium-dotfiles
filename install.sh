@@ -253,6 +253,10 @@ create_symlinks() {
     run ln -sf "$DOTFILES_DIR/webapps.conf" "$HOME/.config/webapps.conf"
     info "Linked webapps.conf"
 
+    # ~/.config/tuiapps.conf
+    run ln -sf "$DOTFILES_DIR/tuiapps.conf" "$HOME/.config/tuiapps.conf"
+    info "Linked tuiapps.conf"
+
     # ~/wallpapers/
     run mkdir -p "$HOME/wallpapers"
     info "Created ~/wallpapers/ directory"

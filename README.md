@@ -25,7 +25,7 @@ Preview without making changes:
 |---|---|
 | **dwm 6.5** | Tiled window manager — movestack, useless gaps, tag-and-follow |
 | **st 0.9.2** | Terminal — alpha transparency, scrollback buffer (2048 lines) |
-| **dmenu 5.3** | Application launcher |
+| **dmenu 5.3** | Application launcher — also surfaces web apps from `webapps.conf` |
 | **slstatus 1.0** | Status bar — CPU, RAM, battery, volume, WiFi, date/time |
 | **picom** | Compositor — vsync, transparency, fading |
 | **dunst** | Notification daemon |
@@ -53,6 +53,7 @@ illium-dotfiles/
 ├── dunst/              # Notification config
 ├── picom/              # Compositor config
 ├── x11/                # .xinitrc, .Xresources
+├── webapps.conf        # Web app definitions (Name=URL, shown in dmenu)
 ├── scripts/            # Utility scripts
 ├── wallpapers/         # Your wallpapers go here
 └── docs/               # Documentation

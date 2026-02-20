@@ -80,11 +80,14 @@ Mod key: **Alt** (Mod1)
 | `Ctrl+Shift+Home` | Reset zoom |
 | `Shift+Insert` | Paste from selection |
 
-## dmenu — Application Launcher
+## dmenu — Application & Web App Launcher
+
+dmenu lists both `$PATH` executables and web apps defined in `~/.config/webapps.conf`.
+Selecting a web app opens it in a dedicated Firefox window.
 
 | Key | Action |
 |---|---|
-| Type text | Filter applications |
+| Type text | Filter applications and web apps |
 | `Return` | Launch selected |
 | `Tab` | Complete selection |
 | `Escape` | Close dmenu |

@@ -12,14 +12,11 @@ if [ -f "$HOME/.cache/wal/colors.sh" ]; then
 fi
 
 # ─── Show menu ──────────────────────────────────────────────────────
-choice=$(printf "Lock\nHibernate\nChange Wallpaper\nScreenshot" | dmenu -i -p "Action:" $DMENU_ARGS)
+choice=$(printf "Lock\nChange Wallpaper\nScreenshot\nClipboard" | dmenu -i -p "Action:" $DMENU_ARGS)
 
 case "$choice" in
     "Lock")
         "$SCRIPTS_DIR/lock.sh"
-        ;;
-    "Hibernate")
-        systemctl hibernate
         ;;
     "Change Wallpaper")
         wallpaper=$(nsxiv -t -o ~/wallpapers)
@@ -27,5 +24,8 @@ case "$choice" in
         ;;
     "Screenshot")
         "$SCRIPTS_DIR/screenshot.sh" -s
+        ;;
+    "Clipboard")
+        clipmenu
         ;;
 esac
